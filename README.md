@@ -27,3 +27,5 @@ npm start
 ```shell
 npm run build
 ```
+
+[![Run on Repl.it](https://repl.it/badge/github/tug62764/LandingPage)](https://repl.it/github/tug62764/LandingPage)
