@@ -1,22 +1,39 @@
 import React, { Component } from 'react';
 
 class Contact extends Component {
+
   constructor(props) {
       super(props);
-      this.state = {name: '', email: ''};
+      this.state = {contactName: '', contactEmail: ''};
 
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+
+      const Database = require("@replit/database")
+      this.db = new Database()
+
+      this.db.set("lastCount", 0).then(() => {});
   }
 
   handleChange(e) {
-    let change = {}
-    change[e.target.name] = e.target.value
-    this.setState(change)
+    console.log('A name was submitted:')
+    if (e.target.name === 'contactName') {
+        console.log('contactName')
+        this.setState({ contactName: e.target.value });
+        console.log(': ', this.state.contactName)
+    }
+    if (e.target.name === 'contactEmail') {
+      this.setState({ contactEmail: e.target.value });
+    }
+
   }
   handleSubmit(e) {
-    alert('A name was submitted: ' + this.state.name + ' ' + this.state.email);
-    e.preventDefault();
+    console.log('A submitted: ')
+    console.log('Here: '+this.state.contactName + ' ' + this.state.contactEmail);
+    let val = this.db.get("lastCount").then(value => {return value});
+    console.log(val)
+    val += 1
+    this.db.set("lastCount", 1).then(() => {});
   }
 
   render() {
@@ -54,22 +71,24 @@ class Contact extends Component {
          <div className="row">
             <div className="eight columns">
 
-               <form onSubmit={this.handleSubmit} id="contactForm" name="contactForm">
+               <form id="contactForm" name="contactForm">
 					<fieldset>
 
                   <div>
 						   <label htmlFor="contactName">Name <span className="required">*</span></label>
 
-                <input type="text" defaultValue="" size="35" id="contactName" name="contactName" onChange={this.handleChange}/>
+                            <input type="text" defaultValue="" size="35" id="contactName" value={this.state.contactName} name="contactName" onChange={this.handleChange}/>
+
                   </div>
 
                   <div>
 						   <label htmlFor="contactEmail">Email <span className="required">*</span></label>
-						   	   <input type="text" defaultValue="" size="35" id="contactEmail" name="contactEmail" onChange={this.handleChange}/>
+
+                           <input type="text" defaultValue="" size="35" id="contactEmail" value={this.state.contactEmail} name ="contactEmail" onChange={this.handleChange}/>
                   </div>
 
                   <div>
-                     <button className="submit" type = "submit" value="Submit">Submit</button>
+                     <button onClick={this.handleSubmit} className="submit">Submit</button>
                      <span id="image-loader">
                         <img alt="" src="images/loader.gif" />
                      </span>
