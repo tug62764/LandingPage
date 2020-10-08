@@ -3,15 +3,20 @@ import React, { Component } from 'react';
 class Contact extends Component {
   constructor(props) {
       super(props);
-      this.state = {contactName: '', contactEmail: ''};
+      this.state = {name: '', email: ''};
 
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.contactName + ' ' + this.state.contactEmail);
-    event.preventDefault();
+  handleChange(e) {
+    let change = {}
+    change[e.target.name] = e.target.value
+    this.setState(change)
+  }
+  handleSubmit(e) {
+    alert('A name was submitted: ' + this.state.name + ' ' + this.state.email);
+    e.preventDefault();
   }
 
   render() {
@@ -49,21 +54,22 @@ class Contact extends Component {
          <div className="row">
             <div className="eight columns">
 
-               <form action="" method="post" id="contactForm" name="contactForm">
+               <form onSubmit={this.handleSubmit} id="contactForm" name="contactForm">
 					<fieldset>
 
                   <div>
 						   <label htmlFor="contactName">Name <span className="required">*</span></label>
-						   <input type="text" defaultValue="" size="35" id="contactName" name="contactName" onChange={this.handleChange}/>
+
+                <input type="text" defaultValue="" size="35" id="contactName" name="contactName" onChange={this.handleChange}/>
                   </div>
 
                   <div>
 						   <label htmlFor="contactEmail">Email <span className="required">*</span></label>
-						   <input type="text" defaultValue="" size="35" id="contactEmail" name="contactEmail" onChange={this.handleChange}/>
+						   	   <input type="text" defaultValue="" size="35" id="contactEmail" name="contactEmail" onChange={this.handleChange}/>
                   </div>
 
                   <div>
-                     <button className="submit" value="Submit">Submit</button>
+                     <button className="submit" type = "submit" value="Submit">Submit</button>
                      <span id="image-loader">
                         <img alt="" src="images/loader.gif" />
                      </span>
